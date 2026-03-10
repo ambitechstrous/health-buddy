@@ -3,12 +3,12 @@ package main
 import (
 	"net/http"
 
-	internal "github.com/ambitechstrous/health-buddy/backend/cmd/internal/handlers"
+	"github.com/ambitechstrous/health-buddy/backend/cmd/internal/handlers"
 	"github.com/go-chi/chi/v5"
 )
 
 func main() {
-	handler := internal.NewHandler()
+	handler := handlers.NewHandler()
 
 	r := chi.NewRouter()
 
