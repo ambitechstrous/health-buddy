@@ -1,6 +1,8 @@
 import { StyleSheet, Text, View } from "react-native";
 import { MealPlanScreen, NavBar } from "../components";
 
+// Primary landing page for meal plan app.
+// TODO: Connect this to real backend and add more functionality. Currently only a read-only view with mocked out data.
 export default function App() {
   return (
     <View style={styles.container}>
