@@ -20,7 +20,7 @@ type Handler struct {
 }
 
 func NewHandler() (IHandler, error) {
-	mcpClient, err := client.NewMcpClient(context.Background(), "localhost:8081")
+	mcpClient, err := client.NewMcpClient(context.Background(), "http://localhost:8081/mcp")
 	if err != nil {
 		return nil, err
 	}

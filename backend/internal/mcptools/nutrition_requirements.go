@@ -53,7 +53,7 @@ func NutritionRequirementsHandler(ctx context.Context, req *mcp.CallToolRequest,
 	}
 
 	client := anthropic.NewClient()
-	prompt := fmt.Sprintf("I am a %d year old %s that weigh %d pounds, and I'm %d inches tall. My fitness goal is %s. Please tell me my nutrition requirements.", args.Weight, args.Age, args.Height, args.Goals)
+	prompt := fmt.Sprintf("I am a %d year old %s that weigh %d pounds, and I'm %d inches tall. My fitness goal is %s. Please tell me my nutrition requirements.", args.Age, args.Sex, args.Weight, args.Height, args.Goals)
 	resp, err := client.Messages.New(ctx, anthropic.MessageNewParams{
 		Model:     anthropic.ModelClaudeSonnet4_5, // TODO: Use Opus. Sonnet is just cheaper
 		MaxTokens: 256,
@@ -69,7 +69,6 @@ func NutritionRequirementsHandler(ctx context.Context, req *mcp.CallToolRequest,
 	}
 
 	// Print full response for debugging
-	fmt.Printf("Response: %v", resp)
 	fmt.Printf("Content: %v", resp.Content)
 
 	// Look for JSON blob in the content
