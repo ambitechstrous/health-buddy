@@ -3,7 +3,7 @@ package main
 import (
 	"net/http"
 
-	"github.com/ambitechstrous/health-buddy/backend/cmd/internal/handlers"
+	"github.com/ambitechstrous/health-buddy/backend/internal/handlers"
 	"github.com/go-chi/chi/v5"
 )
 
