@@ -32,7 +32,8 @@ type NutritionRequirementsResponse struct {
 const systemPrompt = `You are an expert nutritionist. You will be given information such as a user's weight, sex, height, and age. You will also be given a generic prompt with their weight loss goals.
 Please use this information to give recommendations on calorie, protein, carbs, fat, and fiber intake based on this information. 
 You will return this in JSON format, keyed on the type of nutrient, with an integer value based on number of grams.
-Here is an example output for a user that needs 2000 calories, 18g protein, 10g carbs, 10g fat, and 30g fiber: {"calories": 2000, "protein": 18, "carbs": 10", "fat": 10, "fiber": 30}`
+Here is an example output for a user that needs 2000 calories, 18g protein, 10g carbs, 10g fat, and 30g fiber: {"calories": 2000, "protein": 18, "carbs": 10", "fat": 10, "fiber": 30}.
+After getting this JSON blob, you will call the convert_json tool and return the output from that tool directly with no other fluff.`
 
 const (
 	Male   Sex = "Male"
@@ -63,6 +64,12 @@ func NutritionRequirementsHandler(ctx context.Context, req *mcp.CallToolRequest,
 		Messages: []anthropic.MessageParam{
 			anthropic.NewUserMessage(anthropic.NewTextBlock(prompt)),
 		},
+		Tools: []anthropic.ToolUnionParam{{
+			OfTool: &anthropic.ToolParam{
+				Name: "convert_json",
+				// TODO: Define input schema based on convertJson function InputSchema: ,
+			},
+		}},
 	})
 	if err != nil {
 		return nil, nil, fmt.Errorf("anthropic query failed: %v", err)
@@ -89,6 +96,11 @@ func NutritionRequirementsHandler(ctx context.Context, req *mcp.CallToolRequest,
 	}
 
 	return nil, response, nil
+}
+
+// Forced tool use to ensure we get the JSON without the other verbiage fluff
+func convertJsonTool(input *NutritionRequirementsResponse) *NutritionRequirementsResponse {
+	return input
 }
 
 // Mock response. Returns basic calculation of the average requirements for a given person
